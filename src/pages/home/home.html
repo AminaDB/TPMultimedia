@@ -1,14 +1,24 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Iconic Blanco
     </ion-title>
   </ion-navbar>
+  <ion-searchbar (ionInput)="getResults($event)"></ion-searchbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-list>
+    <ion-item *ngIf="!((films | async)?.length )">
+      No results
+    </ion-item>
+    <ion-item *ngFor="let result of films| async">
+      <ion-thumbnail item-start>
+        <img [src]="'https://image.tmdb.org/t/p/w600/'+result.poster_path">
+      </ion-thumbnail>
+      <h2> {{ result.title }} </h2>
+      <p> {{ result.release_date }} • {{ result.backdrop_path }} </p>
+      <button ion-button [navPush]="DetailPage" [navParams]="result">Go</button>
+    </ion-item>
+  </ion-list>
 </ion-content>
